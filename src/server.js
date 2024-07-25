@@ -21,7 +21,7 @@ export const setupServer = () => {
 
   app.get('/', (req, res) => {
     res.json({
-      message: 'Hello world!',
+      message: 'Hello! Welcome to ContactsApp!',
     });
   });
 
@@ -53,7 +53,7 @@ export const setupServer = () => {
     });
   });
 
-  app.use('*', (req, res, next) => {
+  app.use('*', (req, res) => {
     res.status(404).json({
       message: 'Not found',
     });
