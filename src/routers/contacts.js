@@ -3,7 +3,7 @@ import {
   createContactController,
   deleteContactController,
   getContactByIdController,
-  getStudentsController,
+  getContactsController,
   patchContactController,
 } from '../controllers/contacts.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
@@ -16,7 +16,7 @@ import { isValidId } from '../middlewares/isValidId.js';
 
 const router = Router();
 
-router.get('/contacts', ctrlWrapper(getStudentsController));
+router.get('/contacts', ctrlWrapper(getContactsController));
 
 router.get(
   '/contacts/:contactId',
