@@ -13,13 +13,10 @@ export const createContactsValidationSchema = Joi.object({
     'string.max': 'phoneNumber should have at most {#limit} characters',
     'any.required': 'phoneNumber is required',
   }),
-  email: Joi.string().email().required().messages({
+  email: Joi.string().email().messages({
     'string.base': 'Email should be a string!',
-    'any.required': 'Email is required',
   }),
-  isFavourite: Joi.boolean().required().messages({
-    'any.required': 'Field "isFavourite" is required',
-  }),
+  isFavourite: Joi.boolean(),
   contactType: Joi.string()
     .valid('work', 'home', 'personal')
     .required()
