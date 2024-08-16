@@ -23,6 +23,7 @@ export const createContactsValidationSchema = Joi.object({
     .messages({
       'any.required': 'ContactType is required',
     }),
+  // userId: Joi.string().required(),
 });
 
 export const updateContactsValidationSchema = Joi.object({

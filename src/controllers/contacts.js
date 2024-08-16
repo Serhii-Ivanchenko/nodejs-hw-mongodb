@@ -15,7 +15,14 @@ export const getContactsController = async (req, res) => {
   const { sortBy, sortOrder } = parseSortParams(req.query);
   const filter = parseFilterParams(req.query);
 
-  const contacts = await getAllContacts({ page, perPage, sortBy, sortOrder, filter });
+  const contacts = await getAllContacts({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filter,
+    userId: req.user._id,
+  });
 
   res.json({
     status: 200,
@@ -32,6 +39,10 @@ export const getContactByIdController = async (req, res, next) => {
     throw createHttpError(404, 'Contact not found');
   }
 
+  if (contact.userId.toString() !== req.user._id.toString()) {
+    return next(createHttpError(404, 'Student not found...'));
+  }
+
   res.status(200).json({
     status: 200,
     message: `Successfully found contact with id ${contactId}!`,
@@ -40,7 +51,7 @@ export const getContactByIdController = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res, next) => {
-  const newContact = await createContact(req.body);
+  const newContact = await createContact({ ...req.body, userId: req.user._id });
 
   res.status(201).json({
     status: 201,
@@ -58,6 +69,10 @@ export const patchContactController = async (req, res, next) => {
     return;
   }
 
+  if (result.userId.toString() !== req.user._id.toString()) {
+    return next(createHttpError(404, 'Student not found...'));
+  }
+
   res.json({
     status: 200,
     message: ' Successfully patched a contact!',
@@ -72,6 +87,10 @@ export const deleteContactController = async (req, res, next) => {
   if (!contactToDelete) {
     next(createHttpError(404, 'Contact not found'));
     return;
+  }
+
+  if (contactToDelete.userId.toString() !== req.user._id.toString()) {
+    return next(createHttpError(404, 'Student not found...'));
   }
 
   res.status(204).send();
