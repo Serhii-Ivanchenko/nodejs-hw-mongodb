@@ -9,6 +9,7 @@ import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
+import { ContactsCollection } from '../db/models/contacts.js';
 
 export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -33,14 +34,14 @@ export const getContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contact = await getContactById(contactId);
+  const contact = await getContactById({ _id: contactId });
 
   if (!contact) {
     throw createHttpError(404, 'Contact not found');
   }
 
   if (contact.userId.toString() !== req.user._id.toString()) {
-    return next(createHttpError(404, 'Student not found...'));
+    return next(createHttpError(404, 'Contact not found...'));
   }
 
   res.status(200).json({
@@ -70,28 +71,30 @@ export const patchContactController = async (req, res, next) => {
   }
 
   if (result.userId.toString() !== req.user._id.toString()) {
-    return next(createHttpError(404, 'Student not found...'));
+    return next(createHttpError(404, 'Contact not found...'));
   }
 
   res.json({
     status: 200,
-    message: ' Successfully patched a contact!',
-    data: result.contact,
+    message: 'Successfully patched a contact!',
+    data: result,
   });
 };
 
 export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contactToDelete = await deleteContact(contactId);
+
+  const contactToDelete = await ContactsCollection.findOne({ _id: contactId });
 
   if (!contactToDelete) {
-    next(createHttpError(404, 'Contact not found'));
-    return;
+    return next(createHttpError(404, 'Contact not found'));
   }
 
   if (contactToDelete.userId.toString() !== req.user._id.toString()) {
-    return next(createHttpError(404, 'Student not found...'));
+    return next(createHttpError(404, 'Contact not found...'));
   }
+
+  await deleteContact(contactId);
 
   res.status(204).send();
 };

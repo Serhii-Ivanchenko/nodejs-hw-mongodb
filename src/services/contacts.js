@@ -41,12 +41,8 @@ export const getAllContacts = async ({
   };
 };
 
-// export const getContactById = async (id, userId) => {
-//   return await ContactsCollection.findOne({_id: id, userId});
-// };
-
 export const getContactById = async (id) => {
-  return await ContactsCollection.findById( id);
+  return await ContactsCollection.findOne(id);
 };
 
 export const createContact = async (payload) => {
@@ -59,15 +55,12 @@ export const updateContact = async (contactId, payload, options = {}) => {
     payload,
     {
       new: true,
-      includeResultMetadata: true,
       ...options,
     },
   );
-   console.log('Updated Contact:', contactToUpdate);
-  if (!contactToUpdate || !contactToUpdate.value) return null;
-  return {
-    contact: contactToUpdate.value,
-  };
+
+  if (!contactToUpdate) return null;
+  return contactToUpdate;
 };
 
 export const deleteContact = async (contactId) => {
