@@ -5,8 +5,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description:
-    Documentation of the contacts managing app.
+  description: Documentation of the contacts managing app.
 tags:
   - name: Contacts
     description: Operations about contacts.
@@ -16,7 +15,9 @@ servers:
   - url: http://localhost:3000
   - url: https://contacts-app-hb9h.onrender.com
 paths:
-  # тут будуть посилання на ендпоінти
+  /contacts/{id}:
+    get:
+      $ref: ../swagger/paths/contacts/{id}/get.yaml
 components:
   securitySchemes:
     bearerAuth:
