@@ -21,7 +21,7 @@ properties:
     type: string
     example: "+380000000002"
   email:
-    description: "Student's age"
+    description: "Student's email"
     type: string
     example: "john@example.com"
   isFavourite:

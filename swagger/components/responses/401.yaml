@@ -13,7 +13,11 @@ content:
           example: 401
         message:
           type: string
-          example: Unauthorized
+          oneOf:
+            - Unauthorized
+            - Session not found
+            - Refresh token expired
+            - Session for such user not found
         data:
           type: object
           required:
@@ -21,4 +25,8 @@ content:
           properties:
             message:
               type: string
-              example: 'Access token expired or not provided'
+              oneOf:
+                - Access token expired or not provided
+                - Session not found
+                - Refresh token expired
+                - Session for such user not found
