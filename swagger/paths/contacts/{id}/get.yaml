@@ -1,12 +1,3 @@
-# tags - тег, до якого цей ендпоінт належить (Contacts)
-# summary - короткий опис ендпоінта
-# operationId - унікальний ідентифікатор операції
-# description - більш розгорнутий опис
-# security - зазначте, що ми використовуємо авторизацію за допомогою Bearer токену
-# parameters - параметри запиту (для цього ендпоінту - параметр шляху :contactId)
-# responses - варіанти відповіді
-# 200
-# 404
 tags:
   -  Contacts
 summary: Get contact by its id
